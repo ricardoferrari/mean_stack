@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Aula MEAN';
+  postsStored = [];
+  onpostCriado(post) {
+    this.postsStored.push(post);
+  }
 }

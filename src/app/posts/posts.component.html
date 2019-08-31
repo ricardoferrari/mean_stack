@@ -1,1 +1,11 @@
-<p>posts works!</p>
+<mat-accordion multi="true" *ngIf="posts.length > 0" >
+        <mat-expansion-panel *ngFor="let post of posts" >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ post.titulo }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>{{ post.conteudo }}</p>
+        </mat-expansion-panel>
+</mat-accordion>
+<p class="mat-body-1" *ngIf="posts.length <= 0" >N&atilde;o existem posts cadastrados</p>

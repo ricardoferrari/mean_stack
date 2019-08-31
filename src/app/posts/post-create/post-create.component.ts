@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-post-create',
@@ -7,13 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostCreateComponent implements OnInit {
 
-  newPost = 'Nada inserido';
-  enteredValue = 'Inclua seu conteudo';
+  enteredConteudo = 'Inclua seu conteudo';
+  enteredTitulo = 'Meu post';
+  @Output() postCriado = new EventEmitter();
 
   constructor() { }
 
   onAddPost() {
-    this.newPost = this.enteredValue;
+    const post = {
+      titulo: this.enteredTitulo,
+      conteudo: this.enteredConteudo
+    }
+    this.postCriado.emit(post);
   }
 
   ngOnInit() {
