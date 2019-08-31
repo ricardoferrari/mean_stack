@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { Post } from './../post.model';
 import { NgForm } from '@angular/forms';
+import { PostService } from './../post.service';
 
 @Component({
   selector: 'app-post-create',
@@ -9,19 +9,11 @@ import { NgForm } from '@angular/forms';
 })
 export class PostCreateComponent implements OnInit {
 
-  enteredConteudo = 'Inclua seu conteudo';
-  enteredTitulo = 'Meu post';
-  @Output() postCriado = new EventEmitter<Post>();
-
-  constructor() { }
+  constructor(private postService:PostService) { }
 
   onAddPost(form: NgForm) {
     if (form.invalid) { return; }
-    const post: Post = {
-      titulo: form.value.titulo,
-      conteudo: form.value.conteudo
-    }
-    this.postCriado.emit(post);
+    this.postService.addPost(form.value.titulo,form.value.conteudo);
   }
 
   ngOnInit() {
