@@ -7,7 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostCreateComponent implements OnInit {
 
+  newPost = 'Nada inserido';
+  enteredValue = 'Inclua seu conteudo';
+
   constructor() { }
+
+  onAddPost() {
+    this.newPost = this.enteredValue;
+  }
 
   ngOnInit() {
   }
