@@ -8,6 +8,7 @@
                         ngModel
                         required
                         minlength="3"
+                        placeholder="Título"
                         #titulo='ngModel'>
                         <mat-error *ngIf="titulo.invalid" >T&iacute;tulo inv&aacute;lido</mat-error>
                 </mat-form-field>
@@ -18,6 +19,7 @@
                         name="conteudo" 
                         required
                         minlength="5"
+                        placeholder="Conteúdo"
                         ngModel
                         #conteudo="ngModel"></textarea>
                         <mat-error *ngIf="conteudo.invalid" >Conte&uacute;do inv&aacute;lido</mat-error>
