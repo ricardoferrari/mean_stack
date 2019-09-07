@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Post } from './posts/post.model';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +8,5 @@ import { Post } from './posts/post.model';
 export class AppComponent {
   
   title = 'Aula MEAN';
-  postsStored: Post[] = [];
 
-  onpostCriado(post) {
-    this.postsStored.push(post);
-  }
 }
