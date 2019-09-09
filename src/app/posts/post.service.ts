@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Post } from './post.model';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { Router } from '@angular/router';
 
-@Injectable({providedIn: 'root'})
+import { Post } from './post.model';
+
+@Injectable({ providedIn: 'root' })
 export class PostService {
-    
     private posts: Post[] = [];
     private postsUpdated = new Subject<Post[]>();
 
@@ -32,7 +32,9 @@ export class PostService {
     }
 
     getPost(id: string) {
-        return {...this.posts.find(p => p.id === id)};
+        return this.http.get<{ _id: string; titulo: string; conteudo: string }>(
+            "http://localhost:3000/posts/" + id
+        );
     }
 
     getPostUpdateListener() {

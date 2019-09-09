@@ -1,6 +1,6 @@
 <mat-card>
         <mat-spinner *ngIf="isLoading" ></mat-spinner>
-        <form (submit)="onSavePost(postForm)" #postForm="ngForm">
+        <form (submit)="onSavePost(postForm)" #postForm="ngForm" *ngIf="!isLoading" >
                 <mat-form-field>
                         <input 
                         matInput 
@@ -28,7 +28,7 @@
                 <button 
                 color="primary"
                 mat-raised-button
-                type="submit">Criar post</button>
+                type="submit">Salvar post</button>
         </form>
 </mat-card>
 <p>{{ newPost }}</p>

@@ -9,7 +9,7 @@ import { Post } from './post.model';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit, OnDestroy {
-
+  private isLoading: boolean = true;
   private postSubs: Subscription;
   posts: Post[] = [];
 
@@ -23,6 +23,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     this.postSubs = this.postService.getPostUpdateListener()
     .subscribe((posts: Post[]) => {
       this.posts = posts;
+      this.isLoading = false;
     });
     this.postService.getPosts();
   }
