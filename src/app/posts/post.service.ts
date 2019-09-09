@@ -53,11 +53,10 @@ export class PostService {
         const post: Post = {id: id, titulo: titulo, conteudo: conteudo}
         this.http.patch('http://localhost:3000/posts/'+id, post)
             .subscribe(response => {
-                console.log(response);
-                const updatedPosts = [...this.posts];
-                const oldPostIndex = updatedPosts.findIndex(p => p.id === post.id);
-                updatedPosts[oldPostIndex] = post;
-                this.posts = updatedPosts;
+                const postsAtualizados = [...this.posts];
+                const indiceAtualizado = postsAtualizados.findIndex(p => p.id === post.id);
+                postsAtualizados[indiceAtualizado] = post;
+                this.posts = postsAtualizados;
                 this.postsUpdated.next([...this.posts]);
             });
     }
