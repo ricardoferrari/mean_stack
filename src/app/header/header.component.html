@@ -1,1 +1,14 @@
-<mat-toolbar>My App</mat-toolbar>
+<mat-toolbar color="primary">
+    <a routerLink="/">
+        <span>
+            <mat-icon aria-hidden="false" aria-label="home icon">home</mat-icon>
+            &nbsp;Home
+        </span>
+    </a>
+    <span class="spacer"></span>
+    <ul>
+        <li>
+            <a mat-button routerLink="/cria" routerLinkActive="mat-accent">Cria</a>
+        </li>
+    </ul>
+</mat-toolbar>

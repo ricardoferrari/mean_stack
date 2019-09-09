@@ -1,11 +1,11 @@
 <mat-card>
-        <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+        <form (submit)="onSavePost(postForm)" #postForm="ngForm">
                 <mat-form-field>
                         <input 
                         matInput 
                         type="text" 
                         name="titulo"
-                        ngModel
+                        [ngModel]= "post?.titulo"
                         required
                         minlength="3"
                         placeholder="Título"
@@ -20,7 +20,7 @@
                         required
                         minlength="5"
                         placeholder="Conteúdo"
-                        ngModel
+                        [ngModel]="post?.conteudo"
                         #conteudo="ngModel"></textarea>
                         <mat-error *ngIf="conteudo.invalid" >Conte&uacute;do inv&aacute;lido</mat-error>
                 </mat-form-field>
