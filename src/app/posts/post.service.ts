@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Post } from './post.model';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators'
-import { post } from 'selenium-webdriver/http';
+import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class PostService {
@@ -11,7 +11,7 @@ export class PostService {
     private posts: Post[] = [];
     private postsUpdated = new Subject<Post[]>();
 
-    constructor(private http:HttpClient) {}
+    constructor(private http:HttpClient, private router: Router) {}
 
     getPosts() {
         this.http.get<{ message:string, posts:any }>('http://localhost:3000/posts')
@@ -58,6 +58,7 @@ export class PostService {
                 postsAtualizados[indiceAtualizado] = post;
                 this.posts = postsAtualizados;
                 this.postsUpdated.next([...this.posts]);
+                this.router.navigate(["/"]);
             });
     }
 
