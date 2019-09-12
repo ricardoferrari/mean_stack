@@ -15,6 +15,7 @@ export class PostCreateComponent implements OnInit {
 
   form: FormGroup;
   imagePreview: string;
+  imagemError: boolean = false;
   public post: Post;
   private mode = 'create';
   private postId: string;
@@ -37,6 +38,9 @@ export class PostCreateComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({imagem: file});
     this.form.get('imagem').updateValueAndValidity();
+    this.form.get('imagem').statusChanges.subscribe((dados)=> {
+      this.imagemError = !(dados === 'VALID');
+    });
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;
@@ -73,7 +77,8 @@ export class PostCreateComponent implements OnInit {
           this.post = {id: postData._id, titulo: postData.titulo, conteudo: postData.conteudo};
           this.form.setValue({
             'titulo': this.post.titulo,
-            'conteudo': this.post.conteudo 
+            'conteudo': this.post.conteudo,
+            'imagem': null 
           })
         });
       } else {
