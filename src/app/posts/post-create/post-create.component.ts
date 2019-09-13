@@ -22,7 +22,7 @@ export class PostCreateComponent implements OnInit {
   private isLoading: boolean = false;
 
 
-  constructor(private postService:PostService, public route: ActivatedRoute) { }
+  constructor(private postService:PostService, public route: ActivatedRoute) {}
   onSavePost() {
     if (this.form.invalid) { return; }
     if (this.mode === 'create') {
@@ -32,7 +32,12 @@ export class PostCreateComponent implements OnInit {
         this.form.value.imagem
       );
     } else {
-      this.postService.updatePost(this.postId,this.form.value.titulo,this.form.value.conteudo);
+      this.postService.updatePost(
+        this.postId,
+        this.form.value.titulo,
+        this.form.value.conteudo,
+        this.form.value.imagem
+      );
     }
 
     this.form.reset();
@@ -82,12 +87,12 @@ export class PostCreateComponent implements OnInit {
             id: postData._id, 
             titulo: postData.titulo, 
             conteudo: postData.conteudo,
-            imagePath: null
+            imagePath: postData.imagePath
           };
           this.form.setValue({
             'titulo': this.post.titulo,
             'conteudo': this.post.conteudo,
-            'imagem': null 
+            'imagem': this.post.imagePath 
           })
         });
       } else {

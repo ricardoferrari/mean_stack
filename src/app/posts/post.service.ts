@@ -34,7 +34,12 @@ export class PostService {
     }
 
     getPost(id: string) {
-        return this.http.get<{ _id: string; titulo: string; conteudo: string }>(
+        return this.http.get<{
+                                _id: string; 
+                                titulo: string; 
+                                conteudo: string;
+                                imagePath: string;
+                            }>(
             "http://localhost:3000/posts/" + id
         );
     }
@@ -47,7 +52,7 @@ export class PostService {
         const postData = new FormData();
         postData.append('titulo', titulo);
         postData.append('conteudo', conteudo);
-        postData.append('image', image);
+        postData.append('image', image, titulo);
         this.http.post<{message: string, post:Post}>('http://localhost:3000/posts', postData)
             .subscribe((responseData) => {
                 const post: Post = {
@@ -58,15 +63,37 @@ export class PostService {
                 };
                 this.posts.push(post);
                 this.postsUpdated.next([...this.posts]);
+                this.router.navigate(["/"]);
             });
     }
 
-    updatePost(id:string, titulo: string, conteudo: string) {
-        const post: Post = {id: id, titulo: titulo, conteudo: conteudo, imagePath: null}
-        this.http.patch('http://localhost:3000/posts/'+id, post)
+    updatePost(id:string, titulo: string, conteudo: string, image: File | string) {
+        let postData: Post | FormData;
+        console.log(typeof(image));
+        if (typeof image === "object") {
+            postData = new FormData();
+            postData.append('id', id);
+            postData.append('titulo', titulo);
+            postData.append('conteudo', conteudo);
+            postData.append('image', image, titulo);
+        } else {
+            postData = { 
+                id: id, 
+                titulo: titulo, 
+                conteudo: conteudo, 
+                imagePath: image 
+            };
+        }
+        this.http.patch('http://localhost:3000/posts/'+id, postData)
             .subscribe(response => {
                 const postsAtualizados = [...this.posts];
-                const indiceAtualizado = postsAtualizados.findIndex(p => p.id === post.id);
+                const indiceAtualizado = postsAtualizados.findIndex(p => p.id === id);
+                const post: Post = {
+                    id: id, 
+                    titulo: titulo, 
+                    conteudo: conteudo, 
+                    imagePath: ""
+                };
                 postsAtualizados[indiceAtualizado] = post;
                 this.posts = postsAtualizados;
                 this.postsUpdated.next([...this.posts]);
