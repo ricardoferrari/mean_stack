@@ -1,3 +1,4 @@
+import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -20,7 +21,8 @@ export class PostService {
                     return {
                         titulo: post.titulo,
                         conteudo: post.conteudo,
-                        id: post._id
+                        id: post._id,
+                        imagePath: post.imagePath
                     }
                 }))
             }))
@@ -41,18 +43,26 @@ export class PostService {
         return this.postsUpdated.asObservable();
     }
 
-    addPost(titulo: string, conteudo: string) {
-        const post: Post = {id: null, titulo:titulo, conteudo: conteudo }
-        this.http.post<{message: string, postId:string}>('http://localhost:3000/posts', post)
+    addPost(titulo: string, conteudo: string, image: File) {
+        const postData = new FormData();
+        postData.append('titulo', titulo);
+        postData.append('conteudo', conteudo);
+        postData.append('image', image);
+        this.http.post<{message: string, post:Post}>('http://localhost:3000/posts', postData)
             .subscribe((responseData) => {
-                post.id = responseData.postId;
+                const post: Post = {
+                    id: responseData.post.id, 
+                    titulo: titulo, 
+                    conteudo: conteudo,
+                    imagePath: responseData.post.imagePath
+                };
                 this.posts.push(post);
                 this.postsUpdated.next([...this.posts]);
             });
     }
 
     updatePost(id:string, titulo: string, conteudo: string) {
-        const post: Post = {id: id, titulo: titulo, conteudo: conteudo}
+        const post: Post = {id: id, titulo: titulo, conteudo: conteudo, imagePath: null}
         this.http.patch('http://localhost:3000/posts/'+id, post)
             .subscribe(response => {
                 const postsAtualizados = [...this.posts];
