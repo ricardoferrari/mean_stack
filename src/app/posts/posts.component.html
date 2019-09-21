@@ -16,4 +16,6 @@
           </mat-action-row>
         </mat-expansion-panel>
 </mat-accordion>
+<mat-paginator [length]="totalPosts" [pageSize]="postsPerPage" [pageSizeOptions]="postSizeOptions" (page)="onPageChanged($event)"
+*ngIf="posts.length > 0" #paginador></mat-paginator>
 <p class="mat-body-1" *ngIf="posts.length <= 0 && !isLoading" >N&atilde;o existem posts cadastrados</p>
