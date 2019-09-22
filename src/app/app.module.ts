@@ -1,7 +1,8 @@
+import { LoginComponent } from './auth/login/login.component';
 import { MainRouter } from './app-router.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule, MatCardModule, MatButtonModule, MatToolbarModule, MatExpansionModule, MatIconModule, MatProgressSpinnerModule, MatPaginatorModule  } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
@@ -16,12 +17,14 @@ import { PostCreateComponent } from './posts/post-create/post-create.component';
     AppComponent,
     PostsComponent,
     PostCreateComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    FormsModule,
     MainRouter,
     HttpClientModule,
     MatInputModule,
