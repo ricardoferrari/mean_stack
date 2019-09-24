@@ -1,0 +1,12 @@
+:host {
+    margin-top: 1rem;
+    display: block;
+}
+
+mat-form-field, input {
+    width: 100%;
+}
+
+mat-spinner {
+    margin: auto;
+}
