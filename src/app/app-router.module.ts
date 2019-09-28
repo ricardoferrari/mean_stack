@@ -1,3 +1,4 @@
+import { AuthGuard } from './auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router";
 
@@ -8,14 +9,15 @@ import { SignupComponent } from './auth/signup/signup.component';
 
 const routes: Routes = [
     { path: '', component: PostsComponent },
-    { path: 'cria', component: PostCreateComponent},
-    { path: 'edita/:postId', component: PostCreateComponent},
+    { path: 'cria', component: PostCreateComponent, canActivate: [AuthGuard]},
+    { path: 'edita/:postId', component: PostCreateComponent, canActivate: [AuthGuard]},
     { path: 'login', component: LoginComponent},
     { path: 'signup', component: SignupComponent}
 ];
 
 @NgModule({
     imports: [ RouterModule.forRoot(routes) ],
-    exports: [ RouterModule ]
+    exports: [ RouterModule ],
+    providers: [ AuthGuard ]
 })
 export class MainRouter {}

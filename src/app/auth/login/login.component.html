@@ -24,9 +24,10 @@
                     #senhaInput="ngModel">
                     <mat-error *ngIf="senhaInput.invalid" >Senha inv&aacute;lida</mat-error>
             </mat-form-field>
-            <button 
+            <button *ngIf="!isLoading"
             color="primary"
             mat-raised-button
             type="submit">Login</button>
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
     </form>
 </mat-card>

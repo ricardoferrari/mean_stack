@@ -2,7 +2,10 @@ import { PageEvent } from '@angular/material';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from "rxjs";
 import { MatPaginator } from '@angular/material';
+
 import { PostService } from './post.service';
+import { AuthService } from './../auth/auth.service';
+
 import { Post } from './post.model';
 
 @Component({
@@ -11,6 +14,8 @@ import { Post } from './post.model';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit, OnDestroy {
+  isUserAuthenticated: boolean = false;
+  private authStatusSubscription: Subscription;
   private isLoading: boolean = true;
   private postSubs: Subscription;
   posts: Post[] = [];
@@ -20,7 +25,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   postSizeOptions = [1,2,5,10];
   @ViewChild('paginador', {static: false}) paginador: MatPaginator;
 
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService, private authService: AuthService) {}
 
   onDelete(postId: string) {
       this.isLoading = true;
@@ -41,6 +46,11 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isUserAuthenticated = this.authService.getIsAuthenticated();
+    this.authStatusSubscription = this.authService.getAuthStatusObservable()
+      .subscribe(isAuthenticated => {
+        this.isUserAuthenticated = isAuthenticated;
+      });
     this.postSubs = this.postService.getPostUpdateListener()
     .subscribe((postData: {posts: Post[], total: number}) => {
       this.posts = postData.posts;
@@ -52,6 +62,7 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.postSubs.unsubscribe();
+    this.authStatusSubscription.unsubscribe();
   }
 
 }

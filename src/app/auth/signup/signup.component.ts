@@ -7,12 +7,13 @@ import { AuthService } from '../auth.service';
     styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
+    isLoading: boolean = false;
 
     constructor(public authService: AuthService) {}
 
     onSignup(form: NgForm) {
         if (form.invalid) return;
-        
+        this.isLoading = true;
         this.authService.createUser(form.value.email, form.value.senha);
     }
 

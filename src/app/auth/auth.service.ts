@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -8,11 +9,16 @@ export class AuthService {
 
     private token: string;
     private authStatusListener = new Subject<boolean>();
+    private isAuthenticated: boolean = false;
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private router: Router) {}
 
     getToken() {
         return this.token;
+    }
+
+    getIsAuthenticated() {
+        return this.isAuthenticated;
     }
 
     getAuthStatusObservable() {
@@ -34,7 +40,18 @@ export class AuthService {
                 console.log(response);
                 const token = response.token;
                 this.token = token;
-                this.authStatusListener.next(true);
+                if (token) {
+                    this.isAuthenticated = true;
+                    this.authStatusListener.next(true);
+                    this.router.navigate(['/']);
+                }
             })
+    }
+
+    logout() {
+        this.token = null;
+        this.isAuthenticated = false;
+        this.authStatusListener.next(false);
+        this.router.navigate(['/']);
     }
 }
